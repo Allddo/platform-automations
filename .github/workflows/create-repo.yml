@@ -38,7 +38,7 @@ jobs:
       - name: Create GitHub Repository
         id: create_repo
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
         run: |
           REPO_NAME="${{ inputs.repo_name }}"
           IS_PUBLIC="${{ inputs.public }}"
@@ -53,7 +53,7 @@ jobs:
           echo "Creating repository: Allddo/$REPO_NAME as $VISIBILITY"
           
           # Create repository
-          gh repo create "Allddo/$REPO_NAME" --$VISIBILITY --confirm
+          gh repo create "Allddo/$REPO_NAME" --$VISIBILITY
           
           echo "repo_url=https://github.com/Allddo/$REPO_NAME" >> $GITHUB_OUTPUT
 
