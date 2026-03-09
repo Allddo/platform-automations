@@ -24,7 +24,6 @@ jobs:
         run: |
           echo "Repository Name: ${{ inputs.repo_name }}"
           echo "Public: ${{ inputs.public }}"
-          echo "Port Context: ${{ inputs.port_context }}"
 
       - name: Inform Port - Starting
         if: inputs.port_context != ''
@@ -50,8 +49,6 @@ jobs:
           else
             VISIBILITY="private"
           fi
-          
-          echo "Creating repository:
           
           echo "Creating repository: Allddo/$REPO_NAME as $VISIBILITY"
           
