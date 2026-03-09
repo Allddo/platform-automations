@@ -38,7 +38,7 @@ jobs:
       - name: Create GitHub Repository
         id: create_repo
         env:
-          GH_TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           REPO_NAME="${{ inputs.repo_name }}"
           IS_PUBLIC="${{ inputs.public }}"
