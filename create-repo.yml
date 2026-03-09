@@ -8,7 +8,8 @@ on:
         type: string
       public:
         required: true
-        type: toggle
+        type: boolean  # ✅ Changed from 'toggle' to 'boolean'
+        description: 'Make repository public?'
 
 jobs:
   create-repo:
@@ -20,8 +21,9 @@ jobs:
           curl -X POST \
           -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
-          https://api.github.com/orgs/YOUR_ORG/repos \
+          https://api.github.com/user/repos \
           -d '{
             "name": "${{ github.event.inputs.repo_name }}",
-            "private": ${{ github.event.inputs.public == 'public' }}
+            "private": ${{ github.event.inputs.public == false }}
           }'
+        # ✅ Fixed the private logic (inverted boolean)
