@@ -33,6 +33,7 @@ jobs:
           clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
           operation: PATCH_RUN
           runId: ${{ fromJson(inputs.port_context).runId }}
+          status: IN_PROGRESS
           logMessage: "🚀 Starting repository creation for: ${{ inputs.repo_name }}"
 
       - name: Create GitHub Repository
@@ -42,20 +43,14 @@ jobs:
         run: |
           REPO_NAME="${{ inputs.repo_name }}"
           IS_PUBLIC="${{ inputs.public }}"
-          
-          # Determine visibility
           if [ "$IS_PUBLIC" = "true" ]; then
             VISIBILITY="public"
           else
             VISIBILITY="private"
           fi
-          
           echo "Creating repository: Allddo/$REPO_NAME as $VISIBILITY"
-          
-          # Create repository
           gh repo create "Allddo/$REPO_NAME" --$VISIBILITY
-          
-          echo "repo_url=https://github.com/Allddo/$REPO_NAME" >> $GITHUB_OUTPUT
+          echo "repo_url=https://github.com/Allddo/$REPO_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Inform Port - Success
         if: success() && inputs.port_context != ''
@@ -65,6 +60,7 @@ jobs:
           clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
           operation: PATCH_RUN
           runId: ${{ fromJson(inputs.port_context).runId }}
+          status: SUCCESS
           logMessage: |
             ✅ Repository created successfully!
             🔗 View at: ${{ steps.create_repo.outputs.repo_url }}
@@ -77,4 +73,5 @@ jobs:
           clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
           operation: PATCH_RUN
           runId: ${{ fromJson(inputs.port_context).runId }}
+          status: FAILURE
           logMessage: "❌ Failed to create repository. Check the logs for details."
